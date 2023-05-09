@@ -1,4 +1,6 @@
 const inquirer = require('inquirer');
+const mysql = require('mysql2');
+const answerFuncs = require('./answerFuncs');
 
 const inquirerPrompt = function() {
   const questions = [
@@ -30,30 +32,32 @@ const inquirerPrompt = function() {
     }).then((answer) => {
         switch (answer.actions) {
             case "View All Departments":
-                viewAllDepartments();
+                answerFuncs.viewAllDepartments();
                 break;
               case "View All Roles":
-                viewAllRoles();
+                answerFuncs.viewAllRoles();
                 break;
               case "View All Employees":
-                viewAllEmployees();
+                answerFuncs.viewAllEmployees();
                 break;
               case "Add a department":
-                addDepartment();
+                answerFuncs.addDepartment();
                 break;
               case "Add a role":
-                addRole();
+                answerFuncs.addRole();
                 break;
               case "Add an employee":
-                addEmployee();
+                answerFuncs.addEmployee();
                 break;
               case "Update an employee role":
-                updateEmployeeRole();
+                answerFuncs.updateEmployeeRole();
                 break;
               default:
                 console.log(`Invalid action: ${answer.action}`);
             }
     });
 }
+
+inquirerPrompt();
 
 module.exports = inquirerPrompt;
