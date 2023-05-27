@@ -31,30 +31,30 @@ const inquirerPrompt = function() {
          ]
     }).then((answer) => {
         switch (answer.actions) {
-            case "View All Departments":
-                answerFuncs.viewAllDepartments();
-                break;
-              case "View All Roles":
-                answerFuncs.viewAllRoles();
-                break;
-              case "View All Employees":
-                answerFuncs.viewAllEmployees();
-                break;
-              case "Add a department":
-                answerFuncs.addDepartment();
-                break;
-              case "Add a role":
-                answerFuncs.addRole();
-                break;
-              case "Add an employee":
-                answerFuncs.addEmployee();
-                break;
-              case "Update an employee role":
-                answerFuncs.updateEmployeeRole();
-                break;
-              default:
-                console.log(`Invalid action: ${answer.action}`);
-            }
+          case "View All Departments":
+            answerFuncs.viewAllDepartments();
+            break;
+          case "View All Roles":
+            answerFuncs.viewAllRoles();
+            break;
+          case "View All Employees":
+            answerFuncs.viewAllEmployees();
+            break;
+          case "Add a department":
+            answerFuncs.addDepartment();
+            break;
+          case "Add a role":
+            answerFuncs.addRole();
+            break;
+          case "Add an employee":
+            answerFuncs.addEmployee();
+            break;
+          case "Update an employee role":
+            answerFuncs.updateEmployeeRole();
+            break;
+          default:
+            console.log(`Invalid action: ${answer.action}`);
+        }
     });
 }
 
