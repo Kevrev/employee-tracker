@@ -24,7 +24,21 @@ const viewAllDepartments = function() {
 };
 
 const viewAllRoles = function() {
-    console.log("Test");
+    inquirer.prompt([
+        {
+          type: 'input',
+          name: 'deptName',
+          message: "Enter a name for the department:",
+        },
+        {
+            type: 'input',
+            name: 'deptName',
+            message: "Enter a name for the depo:",
+        }
+      ])
+      .then((answers) => {
+        console.log(answers);
+      })
 };
 
 const viewAllEmployees = function() {
@@ -49,8 +63,46 @@ const addDepartment = function() {
 };
 
 const addRole = function() {
-    console.log("Test");
-};
+    connection.query('SELECT name FROM department', (error, results) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+  
+      const departmentList = results.map((result) => ({
+        name: result.name,
+        value: result.id
+      }));
+      
+      inquirer.prompt([
+        {
+          type: 'input',
+          name: 'roleName',
+          message: "Enter a name for the role:",
+        },
+        {
+          type: 'input',
+          name: 'roleSalary',
+          message: "Enter the salary for the role:",
+        },
+        {
+          type: 'list',
+          name: 'roleDept',
+          message: "Which department does this role belong to?",
+          choices: departmentList,
+        }
+      ])
+      .then((answers) => {
+        const roleName = answers.roleName;
+        const roleSalary = answers.roleSalary;
+        const roleDept = answers.roleDept;
+        insertRole(roleName, roleSalary, roleDept);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    });
+  };
 
 const addEmployee = function() {
     console.log("Test");
@@ -67,7 +119,17 @@ const insertDepartment = function(departmentName) {
         console.error(error);
         return;
       }
-      console.log("Department inserted successfully!");
+      console.log("Department inserted successfully");
+    });
+};
+
+const insertRole = function(roleName, roleSalary, roleDept) {
+    connection.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [roleName, roleSalary, roleDept], (error, results) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+      console.log("Role inserted successfully!");
     });
   };
 
@@ -80,4 +142,4 @@ module.exports = {
     addRole,
     addEmployee,
     updateEmployeeRole
-  };
+};
