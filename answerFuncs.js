@@ -42,8 +42,15 @@ const viewAllRoles = function() {
 };
 
 const viewAllEmployees = function() {
-    console.log("Test");
-};
+    connection.query('SELECT employee.id, employee.first_name, employee.last_name, role.title AS role_name FROM employee JOIN role ON employee.role_id = role.id', (error, results) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+    
+        console.table(results, ['id', 'first_name', 'last_name', 'role_name']);
+      });
+  };
 
 const addDepartment = function() {
     inquirer.prompt([
