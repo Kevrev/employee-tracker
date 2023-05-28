@@ -20,25 +20,25 @@ connection.connect((error) => {
 });
 
 const viewAllDepartments = function() {
-    console.log("Test");
+    connection.query('SELECT id, name FROM department', (error, results) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+  
+      console.table(results, ['id', 'name']);
+    });
 };
 
 const viewAllRoles = function() {
-    inquirer.prompt([
-        {
-          type: 'input',
-          name: 'deptName',
-          message: "Enter a name for the department:",
-        },
-        {
-            type: 'input',
-            name: 'deptName',
-            message: "Enter a name for the depo:",
-        }
-      ])
-      .then((answers) => {
-        console.log(answers);
-      })
+    connection.query('SELECT role.title, role.salary, department.name AS department_name FROM role JOIN department ON role.department_id = department.id', (error, results) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+  
+      console.table(results, ['title', 'salary', 'department_name']);
+    });
 };
 
 const viewAllEmployees = function() {
@@ -73,7 +73,7 @@ const addRole = function() {
         name: result.name,
         value: result.id
       }));
-      
+
       inquirer.prompt([
         {
           type: 'input',
@@ -102,7 +102,7 @@ const addRole = function() {
         console.error(error);
       });
     });
-  };
+};
 
 const addEmployee = function() {
     console.log("Test");

@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const answerFuncs = require('./answerFuncs');
 
-const inquirerPrompt = function() {
+function inquirerPrompt() {
   const questions = [
     "What would you like to do?",
     "What is the name of the department you would like to add?",
@@ -21,7 +21,7 @@ const inquirerPrompt = function() {
         name: 'actions',
         message: questions[0],
         choices: [
-            "View All Employees", 
+            "View All Departments", 
             "View All Roles", 
             "View All Employees", 
             "Add a department", 
