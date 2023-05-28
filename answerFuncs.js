@@ -112,8 +112,64 @@ const addRole = function() {
 };
 
 const addEmployee = function() {
-    console.log("Test");
-};
+    connection.query('SELECT DISTINCT manager_id FROM employee', (error, results) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+  
+      const managerList = results.map((result) => ({
+        value: result.manager_id
+      }));
+  
+      connection.query('SELECT id, title FROM role', (error, roleResults) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+  
+        const roleList = roleResults.map((role) => ({
+          name: role.title,
+          value: role.id
+        }));
+  
+        inquirer.prompt([
+          {
+            type: 'input',
+            name: 'employeeFirst',
+            message: "Enter the first name of the employee:"
+          },
+          {
+            type: 'input',
+            name: 'employeeLast',
+            message: "Enter the last name of the employee:"
+          },
+          {
+            type: 'list',
+            name: 'employeeRole',
+            message: "Choose the role of the employee:",
+            choices: roleList
+          },
+          {
+            type: 'list',
+            name: 'employeeManager',
+            message: "Who is the manager for this employee?",
+            choices: managerList
+          }
+        ])
+        .then((answers) => {
+          const employeeFirst = answers.employeeFirst;
+          const employeeLast = answers.employeeLast;
+          const employeeRole = answers.employeeRole;
+          const employeeManager = answers.employeeManager;
+          insertEmployee(employeeFirst, employeeLast, employeeRole, employeeManager);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      });
+    });
+  };
 
 const updateEmployeeRole = function() {
     console.log("Test");
@@ -140,6 +196,15 @@ const insertRole = function(roleName, roleSalary, roleDept) {
     });
   };
 
+const insertEmployee = function(employeeFirst, employeeLast, employeeRole, employeeManager) {
+    connection.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [employeeFirst, employeeLast, employeeRole, employeeManager], (error, results) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        console.log("Employee added successfully");
+      });
+    };
 
 module.exports = {
     viewAllDepartments,
