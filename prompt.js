@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
-const mysql = require('mysql2');
 const answerFuncs = require('./answerFuncs');
 
+// prompt user for inputs
 function inquirerPrompt() {
   const questions = [
     "What would you like to do?",

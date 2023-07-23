@@ -1,16 +1,16 @@
 require('dotenv').config();
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const username = process.env.DB_USER;
-const password = process.env.DB_PASSWORD;
 
+// create connection
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: username,
-  password: password,
-  database: 'employeetrackerdb2',
+  host: process.env.DB_HOST,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
 });
 
+// connect to the database
 connection.connect((error) => {
   if (error) {
     console.error('Error connecting to the database:', error);
@@ -19,6 +19,7 @@ connection.connect((error) => {
   console.log('Connected to the database');
 });
 
+// view all departments
 const viewAllDepartments = function() {
     connection.query('SELECT id, name FROM department', (error, results) => {
       if (error) {
@@ -30,6 +31,7 @@ const viewAllDepartments = function() {
     });
 };
 
+// view all roles
 const viewAllRoles = function() {
     connection.query('SELECT role.title, role.salary, department.name AS department_name FROM role JOIN department ON role.department_id = department.id', (error, results) => {
       if (error) {
@@ -41,6 +43,7 @@ const viewAllRoles = function() {
     });
 };
 
+// view all employees
 const viewAllEmployees = function() {
     connection.query('SELECT employee.id, employee.first_name, employee.last_name, role.title AS role_name FROM employee JOIN role ON employee.role_id = role.id', (error, results) => {
         if (error) {
@@ -52,6 +55,7 @@ const viewAllEmployees = function() {
       });
   };
 
+// add a department
 const addDepartment = function() {
     inquirer.prompt([
       {
@@ -69,6 +73,7 @@ const addDepartment = function() {
     });
 };
 
+// add a role
 const addRole = function() {
     connection.query('SELECT name FROM department', (error, results) => {
       if (error) {
@@ -99,6 +104,7 @@ const addRole = function() {
           choices: departmentList,
         }
       ])
+      // map the results
       .then((answers) => {
         const roleName = answers.roleName;
         const roleSalary = answers.roleSalary;
@@ -111,6 +117,7 @@ const addRole = function() {
     });
 };
 
+// add an employee
 const addEmployee = function() {
     connection.query('SELECT DISTINCT manager_id FROM employee', (error, results) => {
       if (error) {
@@ -157,6 +164,7 @@ const addEmployee = function() {
             choices: managerList
           }
         ])
+        // map the results
         .then((answers) => {
           const employeeFirst = answers.employeeFirst;
           const employeeLast = answers.employeeLast;
@@ -175,6 +183,7 @@ const updateEmployeeRole = function() {
     console.log("Test");
 };
 
+// insert department
 const insertDepartment = function(departmentName) {
 
     connection.query('INSERT INTO department (name) VALUES (?)', [departmentName], (error, results) => {
@@ -186,6 +195,7 @@ const insertDepartment = function(departmentName) {
     });
 };
 
+// insert role
 const insertRole = function(roleName, roleSalary, roleDept) {
     connection.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [roleName, roleSalary, roleDept], (error, results) => {
       if (error) {
@@ -196,6 +206,7 @@ const insertRole = function(roleName, roleSalary, roleDept) {
     });
   };
 
+// insert employee
 const insertEmployee = function(employeeFirst, employeeLast, employeeRole, employeeManager) {
     connection.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [employeeFirst, employeeLast, employeeRole, employeeManager], (error, results) => {
         if (error) {
