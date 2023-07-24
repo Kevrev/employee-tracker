@@ -13,8 +13,6 @@ Users will have to have MySQL installed on their machine and can initially creat
 
 Run the application by running the following command in the terminal: `node prompt.js`. The application will give users a number of options which can be navigated with the arrow keys on the keyboard. Users can select the option they want by pressing the enter key. The database will reflect the changes made by the user.
 
-Users can access the deployed GitHub pages site and browse through the different pages. The navbar at the top hosts the links to each page.
-
 ![Screenshot](/assets/images/screenshot.jpg)
 
 Link to the deployed website itself:
