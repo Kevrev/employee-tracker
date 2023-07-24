@@ -15,9 +15,9 @@ Run the application by running the following command in the terminal: `node prom
 
 ![Screenshot](/assets/images/screenshot.jpg)
 
-Link to the deployed website itself:
+Link to the GitHub repository:
 
-https://github.com/Kevrev/note-taker
+https://github.com/Kevrev/employee-tracker
 
 A video walkthrough of the application:
 
