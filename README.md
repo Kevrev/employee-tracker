@@ -23,7 +23,8 @@ https://github.com/Kevrev/note-taker
 
 A video walkthrough of the application:
 
-[insert video link here]
+https://github.com/Kevrev/employee-tracker/assets/107510684/eb1ea80c-fd21-4da3-8b39-ff26b8e5ff2f
+
 
 ## Technology Used
 
